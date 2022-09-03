@@ -1,4 +1,4 @@
-package the.hb;
+package the.hb.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -11,6 +11,7 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 
 import java.util.Date;
+import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,10 +36,10 @@ public class NettyClient {
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-
+                        socketChannel.pipeline().addLast(new FirstClientHandler());
                     }
                 });
-        connect(bootStrap, "localhost", 8080, MAX_RETRY);
+        connect(bootStrap, "localhost", 8081, MAX_RETRY);
 
     }
     public static void connect(Bootstrap bootstrap,  String host, int port, int retry){
