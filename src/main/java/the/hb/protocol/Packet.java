@@ -1,4 +1,4 @@
-package the.hb.protocol.command;
+package the.hb.protocol;
 
 import lombok.Data;
 

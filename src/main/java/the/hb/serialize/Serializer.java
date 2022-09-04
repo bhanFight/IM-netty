@@ -1,6 +1,5 @@
 package the.hb.serialize;
 
-import com.sun.xml.internal.ws.api.message.Packet;
 import the.hb.serialize.impl.JSONSerializer;
 
 /**

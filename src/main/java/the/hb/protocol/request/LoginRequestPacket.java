@@ -1,6 +1,9 @@
-package the.hb.protocol.command;
+package the.hb.protocol.request;
+
 
 import lombok.Data;
+import the.hb.protocol.command.Command;
+import the.hb.protocol.Packet;
 
 /**
  * <p>
@@ -9,9 +12,9 @@ import lombok.Data;
  * <p>2022/9/3 21:07
  */
 @Data
-public class LoginRequestPacket extends Packet{
+public class LoginRequestPacket extends Packet {
 
-    private Integer userId;
+    private String userId;
     private String userName;
     private String password;
 
@@ -19,4 +22,5 @@ public class LoginRequestPacket extends Packet{
     public Byte getCommand() {
         return Command.LOGIN_REQUEST;
     }
+
 }

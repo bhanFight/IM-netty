@@ -1,7 +1,10 @@
-package the.hb.protocol.command;
+package the.hb.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import the.hb.protocol.command.Command;
+import the.hb.protocol.request.LoginRequestPacket;
+import the.hb.protocol.response.LoginResponsePacket;
 import the.hb.serialize.SerializeAlgorithm;
 import the.hb.serialize.Serializer;
 
@@ -16,20 +19,28 @@ import java.util.Map;
  */
 public class PacketCodeC {
 
-    private static final int MAGIC_NUMBER = 0x12345678;
-    private static final Map<Byte, Serializer> serializerMap;
-    private static final Map<Byte, Class<? extends Packet>> requestTypeMap;
+    public static final PacketCodeC INSTANCE = new PacketCodeC();
 
-    static{
+    private static final int MAGIC_NUMBER = 0x12345678;
+    private final Map<Byte, Serializer> serializerMap;
+    private final Map<Byte, Class<? extends Packet>> requestTypeMap;
+
+    private PacketCodeC(){
         serializerMap = new HashMap<>();
         serializerMap.put(SerializeAlgorithm.JSON, Serializer.DEFAULT);
 
         requestTypeMap = new HashMap<>();
         requestTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+        requestTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
     }
 
     public ByteBuf encode(Packet packet){
-        ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
+        return encode(ByteBufAllocator.DEFAULT, packet);
+    }
+
+    public ByteBuf encode(ByteBufAllocator allocator, Packet packet){
+        ByteBuf byteBuf = allocator.buffer();
+
         byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
         byteBuf.writeInt(MAGIC_NUMBER);

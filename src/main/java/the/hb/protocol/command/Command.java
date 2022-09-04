@@ -9,5 +9,5 @@ package the.hb.protocol.command;
 public interface Command {
 
     byte LOGIN_REQUEST = 1;
-
+    byte LOGIN_RESPONSE = 2;
 }

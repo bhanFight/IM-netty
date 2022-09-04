@@ -1,8 +1,8 @@
 import io.netty.buffer.ByteBuf;
 import org.junit.Test;
-import the.hb.protocol.command.LoginRequestPacket;
-import the.hb.protocol.command.Packet;
-import the.hb.protocol.command.PacketCodeC;
+import the.hb.protocol.request.LoginRequestPacket;
+import the.hb.protocol.Packet;
+import the.hb.protocol.PacketCodeC;
 import the.hb.serialize.Serializer;
 
 /**
