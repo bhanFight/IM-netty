@@ -9,5 +9,4 @@ package the.hb.serialize;
 public interface SerializeAlgorithm {
 
     byte JSON = 1;
-
 }
