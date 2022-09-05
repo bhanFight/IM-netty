@@ -4,9 +4,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import the.hb.protocol.request.LoginRequestPacket;
+import the.hb.protocol.request.MessageRequestPacket;
 import the.hb.protocol.response.LoginResponsePacket;
 import the.hb.protocol.Packet;
 import the.hb.protocol.PacketCodeC;
+import the.hb.protocol.response.MessageResponsePacket;
 
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -42,12 +44,22 @@ public class FirstServerHandler extends ChannelInboundHandlerAdapter {
 
             ctx.channel().writeAndFlush(PacketCodeC.INSTANCE.
                     encode(ctx.alloc(), loginResponsePacket));
+        } else if(packet instanceof MessageRequestPacket){
+            MessageRequestPacket messageRequestPacket = (MessageRequestPacket) packet;
+            System.out.println(new Date() + ":服务器回复客户端发来的消息(" +
+                    messageRequestPacket.getMessage() + "):");
+            String message = "我在，有什么事情？";
+            System.out.println(message);
+            MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
+            messageResponsePacket.setMessage(message);
+            ByteBuf encode = PacketCodeC.INSTANCE.encode(ctx.alloc(), messageResponsePacket);
+            ctx.channel().writeAndFlush(encode);
         }
 
     }
 
     private boolean validate(LoginRequestPacket loginRequestPacket) {
-        return false;
+        return true;
     }
 
     private ByteBuf getByteBuf(ChannelHandlerContext ctx){

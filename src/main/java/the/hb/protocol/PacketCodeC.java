@@ -4,7 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import the.hb.protocol.command.Command;
 import the.hb.protocol.request.LoginRequestPacket;
+import the.hb.protocol.request.MessageRequestPacket;
 import the.hb.protocol.response.LoginResponsePacket;
+import the.hb.protocol.response.MessageResponsePacket;
 import the.hb.serialize.SerializeAlgorithm;
 import the.hb.serialize.Serializer;
 
@@ -32,6 +34,8 @@ public class PacketCodeC {
         requestTypeMap = new HashMap<>();
         requestTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
         requestTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
+        requestTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
+        requestTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
     }
 
     public ByteBuf encode(Packet packet){

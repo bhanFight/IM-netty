@@ -1,15 +1,21 @@
 package the.hb.client;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import the.hb.attribute.Attributes;
 import the.hb.protocol.request.LoginRequestPacket;
+import the.hb.protocol.request.MessageRequestPacket;
 import the.hb.protocol.response.LoginResponsePacket;
 import the.hb.protocol.Packet;
 import the.hb.protocol.PacketCodeC;
+import the.hb.protocol.response.MessageResponsePacket;
+import the.hb.util.LoginUtil;
 
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.UUID;
 
 /**
@@ -46,12 +52,18 @@ public class FirstClientHandler extends ChannelInboundHandlerAdapter {
 
             if(loginResponsePacket.isSuccess()){
                 System.out.println(new Date() + ":登录成功");
+                LoginUtil.markAsLogin(ctx.channel());
             }else{
                 System.out.println(new Date() + ":登录失败:" + loginResponsePacket.getReason());
             }
+        } else if(packet instanceof MessageResponsePacket){
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println(new Date() + ":服务端发来消息:" +
+                    messageResponsePacket.getMessage());
         }
 
     }
+
     private ByteBuf getByteBuf(ChannelHandlerContext ctx){
         ByteBuf byteBuf = ctx.alloc().buffer();
         byte[] bytes = "你好，路飞".getBytes(Charset.forName("utf-8"));

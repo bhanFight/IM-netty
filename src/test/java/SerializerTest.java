@@ -16,7 +16,7 @@ public class SerializerTest {
 
     private Serializer serializer = Serializer.DEFAULT;
     private Packet packet = new LoginRequestPacket();
-    private PacketCodeC packetCodeC = new PacketCodeC();
+    private PacketCodeC packetCodeC = PacketCodeC.INSTANCE;
 
     @Test
     public void serializeTest(){
