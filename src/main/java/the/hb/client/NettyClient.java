@@ -12,13 +12,17 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import the.hb.client.handler.FirstClientHandler;
+import the.hb.client.handler.LoginResponseHandler;
+import the.hb.client.handler.MessageResponseHandler;
+import the.hb.common.handler.PacketDecoder;
+import the.hb.common.handler.PacketEncoder;
 import the.hb.protocol.PacketCodeC;
 import the.hb.protocol.request.MessageRequestPacket;
 import the.hb.util.LoginUtil;
 
 import java.util.Date;
 import java.util.Scanner;
-import java.util.SortedMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -43,7 +47,11 @@ public class NettyClient {
                 .option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
-                        socketChannel.pipeline().addLast(new FirstClientHandler());
+                        socketChannel.pipeline()
+                                .addLast(PacketEncoder.packetEncoder)
+                                .addLast(PacketDecoder.packetDecoder)
+                                .addLast(new LoginResponseHandler())
+                                .addLast(new MessageResponseHandler());
                     }
                 });
         connect(bootStrap, "localhost", 8081, MAX_RETRY);
@@ -82,8 +90,8 @@ public class NettyClient {
                     MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
                     messageRequestPacket.setMessage(message);
 
-                    ByteBuf encode = PacketCodeC.INSTANCE.encode(channel.alloc(), messageRequestPacket);
-                    channel.writeAndFlush(encode);
+//                    ByteBuf encode = PacketCodeC.INSTANCE.encode(channel.alloc(), messageRequestPacket);
+                    channel.writeAndFlush(messageRequestPacket);
                 }
             }
         }).start();

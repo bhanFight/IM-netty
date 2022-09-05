@@ -45,14 +45,7 @@ public class PacketCodeC {
     public ByteBuf encode(ByteBufAllocator allocator, Packet packet){
         ByteBuf byteBuf = allocator.buffer();
 
-        byte[] bytes = Serializer.DEFAULT.serialize(packet);
-
-        byteBuf.writeInt(MAGIC_NUMBER);
-        byteBuf.writeByte(packet.getVersion());
-        byteBuf.writeByte(Serializer.DEFAULT.getSerializeAlgorithm());
-        byteBuf.writeByte(packet.getCommand());
-        byteBuf.writeInt(bytes.length);
-        byteBuf.writeBytes(bytes);
+        encode(packet, byteBuf);
 
         return byteBuf;
     }
@@ -78,4 +71,16 @@ public class PacketCodeC {
         return serializerMap.get(serializeAlgorithm);
     }
 
+    public void encode(Packet packet, ByteBuf byteBuf) {
+
+        byte[] bytes = Serializer.DEFAULT.serialize(packet);
+
+        byteBuf.writeInt(MAGIC_NUMBER);
+        byteBuf.writeByte(packet.getVersion());
+        byteBuf.writeByte(Serializer.DEFAULT.getSerializeAlgorithm());
+        byteBuf.writeByte(packet.getCommand());
+        byteBuf.writeInt(bytes.length);
+        byteBuf.writeBytes(bytes);
+
+    }
 }
