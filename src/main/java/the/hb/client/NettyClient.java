@@ -20,11 +20,13 @@ import the.hb.common.handler.PacketDecoder;
 import the.hb.common.handler.PacketEncoder;
 import the.hb.common.handler.Spliter;
 import the.hb.protocol.PacketCodeC;
+import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.request.MessageRequestPacket;
 import the.hb.util.LoginUtil;
 
 import java.util.Date;
 import java.util.Scanner;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -51,8 +53,8 @@ public class NettyClient {
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
                                 .addLast(new Spliter())
-                                .addLast(PacketEncoder.packetEncoder)
-                                .addLast(PacketDecoder.packetDecoder)
+                                .addLast(new PacketDecoder())
+                                .addLast(new PacketEncoder())
                                 .addLast(new LoginResponseHandler())
                                 .addLast(new MessageResponseHandler());
                     }
@@ -83,23 +85,43 @@ public class NettyClient {
     private static void startConsoleThread(Channel channel) {
 
         new Thread(() ->{
+            System.out.print("请输入用户名进行登录:");
             while(!Thread.currentThread().isInterrupted()){
+                Scanner sc = new Scanner(System.in);
                 if(LoginUtil.isLogin(channel)){
-                    System.out.println("请在此输入消息：");
-                    Scanner sc = new Scanner(System.in);
+                    String toUserId = sc.next();
                     String message = sc.nextLine();
 
                     //发送message到服务器
                     MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
+                    messageRequestPacket.setToUserId(toUserId);
                     messageRequestPacket.setMessage(message);
 
 //                    ByteBuf encode = PacketCodeC.INSTANCE.encode(channel.alloc(), messageRequestPacket);
-                    for(int i = 0; i < 50; i++){
-                        channel.writeAndFlush(messageRequestPacket);
-                    }
+                    channel.writeAndFlush(messageRequestPacket);
+                }else{
+                    String userName = sc.nextLine();
+                    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+
+                    loginRequestPacket.setUserId(UUID.randomUUID().toString());
+                    loginRequestPacket.setUserName(userName);
+                    loginRequestPacket.setPassword("suoLong123..");
+
+                    channel.writeAndFlush(loginRequestPacket);
+
+                    waitForLoginResponse();
                 }
             }
         }).start();
 
     }
+
+    private static void waitForLoginResponse(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

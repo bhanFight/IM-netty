@@ -3,6 +3,7 @@ package the.hb.server.handler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import the.hb.util.LoginUtil;
+import the.hb.util.SessionUtil;
 
 import java.util.Date;
 
@@ -17,7 +18,7 @@ public class AuthHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         //用户登录校验
-        if(!LoginUtil.isLogin(ctx.channel())){
+        if(!SessionUtil.hasLogin(ctx.channel())){
             ctx.channel().close();
         }else{
             ctx.channel().pipeline().remove(this);

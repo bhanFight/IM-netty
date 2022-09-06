@@ -35,11 +35,11 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                         nioSocketChannel.pipeline()
                                 .addLast(new Spliter())
-                                .addLast(PacketDecoder.packetDecoder)
+                                .addLast(new PacketDecoder())
                                 .addLast(new LoginRequestHandler())
                                 .addLast("authHandler", new AuthHandler())
                                 .addLast(new MessageRequestHandler())
-                                .addLast(PacketEncoder.packetEncoder);
+                                .addLast(new PacketEncoder());
                     }
                 });
         bind(serverBootstrap, 8080);

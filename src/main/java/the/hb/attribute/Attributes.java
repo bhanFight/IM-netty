@@ -1,6 +1,7 @@
 package the.hb.attribute;
 
 import io.netty.util.AttributeKey;
+import the.hb.Session.Session;
 
 /**
  * <p>
@@ -11,5 +12,7 @@ import io.netty.util.AttributeKey;
 public interface Attributes {
 
     AttributeKey<Boolean> LOGIN = AttributeKey.newInstance("login");
+
+    AttributeKey<Session> SESSION = AttributeKey.newInstance("session");
 
 }

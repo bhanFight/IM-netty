@@ -2,6 +2,7 @@ package the.hb.util;
 
 import io.netty.channel.Channel;
 import io.netty.util.Attribute;
+import the.hb.Session.Session;
 import the.hb.attribute.Attributes;
 
 /**

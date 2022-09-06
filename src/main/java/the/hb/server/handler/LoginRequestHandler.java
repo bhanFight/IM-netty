@@ -2,9 +2,11 @@ package the.hb.server.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import the.hb.Session.Session;
 import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.response.LoginResponsePacket;
 import the.hb.util.LoginUtil;
+import the.hb.util.SessionUtil;
 
 import java.util.Date;
 
@@ -25,8 +27,12 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         if(validate(loginRequestPacket)){
             System.out.println(new Date() + ":用户" +
                     loginRequestPacket.getUserName() + "登录成功");
-            LoginUtil.markAsLogin(ctx.channel());
+//            LoginUtil.markAsLogin(ctx.channel());
+            String userId = loginRequestPacket.getUserId();
+            String userName = loginRequestPacket.getUserName();
+            SessionUtil.bindSession(new Session(userId, userName), ctx.channel());
             loginResponsePacket.setSuccess(true);
+            loginResponsePacket.setUserId(userId);
         }else{
             System.out.println(new Date() + ":登录失败");
             loginResponsePacket.setSuccess(false);
@@ -34,6 +40,12 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         }
 
         ctx.channel().writeAndFlush(loginResponsePacket);
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        SessionUtil.unBoundSession(ctx.channel());
+        super.channelInactive(ctx);
     }
 
     private boolean validate(LoginRequestPacket loginRequestPacket) {

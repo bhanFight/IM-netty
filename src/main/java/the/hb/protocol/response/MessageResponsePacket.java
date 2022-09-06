@@ -13,6 +13,7 @@ import the.hb.protocol.command.Command;
 @Data
 public class MessageResponsePacket extends Packet {
 
+    private String fromUserId;
     private String message;
 
     @Override

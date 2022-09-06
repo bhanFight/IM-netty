@@ -16,10 +16,6 @@ import java.util.List;
  */
 public class PacketDecoder extends ByteToMessageDecoder {
 
-    public static PacketDecoder packetDecoder = new PacketDecoder();
-
-    private PacketDecoder(){}
-
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
         list.add(PacketCodeC.INSTANCE.decode(byteBuf));

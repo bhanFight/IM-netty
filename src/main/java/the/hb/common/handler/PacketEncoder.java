@@ -14,10 +14,6 @@ import the.hb.protocol.PacketCodeC;
  */
 public class PacketEncoder extends MessageToByteEncoder<Packet> {
 
-    public static PacketEncoder packetEncoder = new PacketEncoder();
-
-    private PacketEncoder(){}
-
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) throws Exception {
         PacketCodeC.INSTANCE.encode(packet, byteBuf);

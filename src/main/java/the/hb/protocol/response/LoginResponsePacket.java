@@ -14,6 +14,7 @@ import the.hb.protocol.command.Command;
 public class LoginResponsePacket extends Packet {
 
     private boolean success;
+    private String userId;
     private String reason;
 
     public boolean isSuccess(){

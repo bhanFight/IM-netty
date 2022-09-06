@@ -20,13 +20,13 @@ import java.util.UUID;
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+        /*LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
 
         loginRequestPacket.setUserId(UUID.randomUUID().toString());
         loginRequestPacket.setUserName("索隆");
         loginRequestPacket.setPassword("suoLong123..");
 
-        ctx.channel().writeAndFlush(loginRequestPacket);
+        ctx.channel().writeAndFlush(loginRequestPacket);*/
     }
 
     @Override
@@ -34,7 +34,7 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
         System.out.println(new Date() + ":收到登录响应");
 
         if(loginResponsePacket.isSuccess()){
-            System.out.println(new Date() + ":登录成功");
+            System.out.println(new Date() + ":登录成功,您的userId为" + loginResponsePacket.getUserId());
             LoginUtil.markAsLogin(ctx.channel());
         }else{
             System.out.println(new Date() + ":登录失败:" + loginResponsePacket.getReason());
