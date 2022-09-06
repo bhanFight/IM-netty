@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.response.LoginResponsePacket;
+import the.hb.util.LoginUtil;
 
 import java.util.Date;
 
@@ -24,9 +25,10 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         if(validate(loginRequestPacket)){
             System.out.println(new Date() + ":用户" +
                     loginRequestPacket.getUserName() + "登录成功");
+            LoginUtil.markAsLogin(ctx.channel());
             loginResponsePacket.setSuccess(true);
         }else{
-            System.out.println(new Date() + "登录失败");
+            System.out.println(new Date() + ":登录失败");
             loginResponsePacket.setSuccess(false);
             loginResponsePacket.setReason("用户名或密码不存在");
         }

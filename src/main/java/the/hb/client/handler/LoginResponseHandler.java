@@ -3,7 +3,9 @@ package the.hb.client.handler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import the.hb.protocol.request.LoginRequestPacket;
+import the.hb.protocol.request.MessageRequestPacket;
 import the.hb.protocol.response.LoginResponsePacket;
+import the.hb.server.handler.MessageRequestHandler;
 import the.hb.util.LoginUtil;
 
 import java.util.Date;

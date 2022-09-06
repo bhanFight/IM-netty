@@ -11,6 +11,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import the.hb.common.handler.PacketDecoder;
 import the.hb.common.handler.PacketEncoder;
 import the.hb.common.handler.Spliter;
+import the.hb.server.handler.AuthHandler;
 import the.hb.server.handler.FirstServerHandler;
 import the.hb.server.handler.LoginRequestHandler;
 import the.hb.server.handler.MessageRequestHandler;
@@ -36,6 +37,7 @@ public class NettyServer {
                                 .addLast(new Spliter())
                                 .addLast(PacketDecoder.packetDecoder)
                                 .addLast(new LoginRequestHandler())
+                                .addLast("authHandler", new AuthHandler())
                                 .addLast(new MessageRequestHandler())
                                 .addLast(PacketEncoder.packetEncoder);
                     }
