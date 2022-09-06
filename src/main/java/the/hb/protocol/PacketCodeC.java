@@ -2,6 +2,7 @@ package the.hb.protocol;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import lombok.Data;
 import the.hb.protocol.command.Command;
 import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.request.MessageRequestPacket;
@@ -23,7 +24,7 @@ public class PacketCodeC {
 
     public static final PacketCodeC INSTANCE = new PacketCodeC();
 
-    private static final int MAGIC_NUMBER = 0x12345678;
+    public static final int MAGIC_NUMBER = 0x12345678;
     private final Map<Byte, Serializer> serializerMap;
     private final Map<Byte, Class<? extends Packet>> requestTypeMap;
 

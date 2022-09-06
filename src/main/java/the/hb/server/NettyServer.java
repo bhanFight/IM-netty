@@ -5,10 +5,12 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import the.hb.common.handler.PacketDecoder;
 import the.hb.common.handler.PacketEncoder;
+import the.hb.common.handler.Spliter;
 import the.hb.server.handler.FirstServerHandler;
 import the.hb.server.handler.LoginRequestHandler;
 import the.hb.server.handler.MessageRequestHandler;
@@ -31,6 +33,7 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                         nioSocketChannel.pipeline()
+                                .addLast(new Spliter())
                                 .addLast(PacketDecoder.packetDecoder)
                                 .addLast(new LoginRequestHandler())
                                 .addLast(new MessageRequestHandler())
