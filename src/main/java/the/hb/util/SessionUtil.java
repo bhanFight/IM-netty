@@ -5,6 +5,7 @@ import io.netty.util.Attribute;
 import the.hb.Session.Session;
 import the.hb.attribute.Attributes;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class SessionUtil {
 
         userIdChannelMap.put(session.getUserId(), channel);
         channel.attr(Attributes.SESSION).set(session);
-
+        System.out.println(new Date() + ":[" + session.getUserName() + "]已登陆");
     }
 
     public static boolean hasLogin(Channel channel){
@@ -46,11 +47,15 @@ public class SessionUtil {
 
     public static void unBoundSession(Channel channel) {
 
+        String userName = null;
         if(hasLogin(channel)){
             Session session = channel.attr(Attributes.SESSION).get();
+            userName = session.getUserName();
             userIdChannelMap.remove(session.getUserId());
             channel.attr(Attributes.SESSION).set(null);
         }
-
+        if(userName != null){
+            System.out.println(new Date() + ":[" + userName + "]已退出");
+        }
     }
 }

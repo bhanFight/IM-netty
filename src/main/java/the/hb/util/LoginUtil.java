@@ -20,8 +20,12 @@ public class LoginUtil {
 
     }
 
+    public static void logout(Channel channel){
+        channel.attr(Attributes.LOGIN).set(false);
+    }
+
     public static boolean isLogin(Channel channel) {
         Attribute<Boolean> attr = channel.attr(Attributes.LOGIN);
-        return attr.get() != null;
+        return attr.get() != null && attr.get();
     }
 }

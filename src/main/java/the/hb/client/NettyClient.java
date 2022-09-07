@@ -6,6 +6,7 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.local.LocalEventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -13,8 +14,11 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import the.hb.client.console.ConsoleCommandManager;
+import the.hb.client.console.LoginConsoleCommand;
 import the.hb.client.handler.FirstClientHandler;
 import the.hb.client.handler.LoginResponseHandler;
+import the.hb.client.handler.LogoutResponseHandler;
 import the.hb.client.handler.MessageResponseHandler;
 import the.hb.common.handler.PacketDecoder;
 import the.hb.common.handler.PacketEncoder;
@@ -22,6 +26,7 @@ import the.hb.common.handler.Spliter;
 import the.hb.protocol.PacketCodeC;
 import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.request.MessageRequestPacket;
+import the.hb.server.handler.LogoutRequestHandler;
 import the.hb.util.LoginUtil;
 
 import java.util.Date;
@@ -56,7 +61,8 @@ public class NettyClient {
                                 .addLast(new PacketDecoder())
                                 .addLast(new PacketEncoder())
                                 .addLast(new LoginResponseHandler())
-                                .addLast(new MessageResponseHandler());
+                                .addLast(new MessageResponseHandler())
+                                .addLast(new LogoutResponseHandler());
                     }
                 });
         connect(bootStrap, "localhost", 8081, MAX_RETRY);
@@ -85,43 +91,16 @@ public class NettyClient {
     private static void startConsoleThread(Channel channel) {
 
         new Thread(() ->{
-            System.out.print("请输入用户名进行登录:");
             while(!Thread.currentThread().isInterrupted()){
                 Scanner sc = new Scanner(System.in);
                 if(LoginUtil.isLogin(channel)){
-                    String toUserId = sc.next();
-                    String message = sc.nextLine();
-
-                    //发送message到服务器
-                    MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
-                    messageRequestPacket.setToUserId(toUserId);
-                    messageRequestPacket.setMessage(message);
-
-//                    ByteBuf encode = PacketCodeC.INSTANCE.encode(channel.alloc(), messageRequestPacket);
-                    channel.writeAndFlush(messageRequestPacket);
+                    new ConsoleCommandManager().execute(sc, channel);
                 }else{
-                    String userName = sc.nextLine();
-                    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
-
-                    loginRequestPacket.setUserId(UUID.randomUUID().toString());
-                    loginRequestPacket.setUserName(userName);
-                    loginRequestPacket.setPassword("suoLong123..");
-
-                    channel.writeAndFlush(loginRequestPacket);
-
-                    waitForLoginResponse();
+                    new LoginConsoleCommand().execute(sc, channel);
                 }
             }
         }).start();
 
-    }
-
-    private static void waitForLoginResponse(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
 }
