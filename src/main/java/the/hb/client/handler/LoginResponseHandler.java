@@ -31,7 +31,7 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LoginResponsePacket loginResponsePacket) throws Exception {
-        System.out.println(new Date() + ":收到登录响应");
+//        System.out.println(new Date() + ":收到登录响应");
 
         if(loginResponsePacket.isSuccess()){
             System.out.println(new Date() + ":登录成功,您的userId为" + loginResponsePacket.getUserId());

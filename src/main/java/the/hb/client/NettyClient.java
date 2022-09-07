@@ -16,16 +16,14 @@ import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
 import the.hb.client.console.ConsoleCommandManager;
 import the.hb.client.console.LoginConsoleCommand;
-import the.hb.client.handler.FirstClientHandler;
-import the.hb.client.handler.LoginResponseHandler;
-import the.hb.client.handler.LogoutResponseHandler;
-import the.hb.client.handler.MessageResponseHandler;
+import the.hb.client.handler.*;
 import the.hb.common.handler.PacketDecoder;
 import the.hb.common.handler.PacketEncoder;
 import the.hb.common.handler.Spliter;
 import the.hb.protocol.PacketCodeC;
 import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.request.MessageRequestPacket;
+import the.hb.protocol.response.CreateGroupResponsePacket;
 import the.hb.server.handler.LogoutRequestHandler;
 import the.hb.util.LoginUtil;
 
@@ -62,7 +60,8 @@ public class NettyClient {
                                 .addLast(new PacketEncoder())
                                 .addLast(new LoginResponseHandler())
                                 .addLast(new MessageResponseHandler())
-                                .addLast(new LogoutResponseHandler());
+                                .addLast(new LogoutResponseHandler())
+                                .addLast(new CreateGroupResponseHandler());
                     }
                 });
         connect(bootStrap, "localhost", 8081, MAX_RETRY);

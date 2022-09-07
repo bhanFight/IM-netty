@@ -2,6 +2,7 @@ package the.hb.client.console;
 
 import io.netty.channel.Channel;
 import the.hb.protocol.request.LoginRequestPacket;
+import the.hb.util.IDUtil;
 
 import java.util.Date;
 import java.util.Scanner;
@@ -20,7 +21,7 @@ public class LoginConsoleCommand implements ConsoleCommand{
         String userName = sc.nextLine();
         LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
 
-        loginRequestPacket.setUserId(UUID.randomUUID().toString());
+        loginRequestPacket.setUserId(IDUtil.getUserId());
         loginRequestPacket.setUserName(userName);
         loginRequestPacket.setPassword("suoLong123..");
 

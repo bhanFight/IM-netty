@@ -22,12 +22,13 @@ public class ConsoleCommandManager implements ConsoleCommand{
 
         this.put("message", new MessageConsoleCommand())
             .put("createGroup", new CreateGroupConsoleCommand())
-            .put("logout", new LogoutConsoleCommand());
+            .put("logout", new LogoutConsoleCommand())
+            .put("createGroup", new CreateGroupConsoleCommand());
     }
 
     @Override
     public void execute(Scanner sc, Channel channel) {
-        System.out.print(new Date() + ":请出入指令->");
+//        System.out.print(new Date() + ":请出入指令->");
 
         String command = sc.nextLine();
 

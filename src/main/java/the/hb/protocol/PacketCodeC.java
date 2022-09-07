@@ -4,9 +4,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import lombok.Data;
 import the.hb.protocol.command.Command;
+import the.hb.protocol.request.CreateGroupRequestPacket;
 import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.request.LogoutRequestPacket;
 import the.hb.protocol.request.MessageRequestPacket;
+import the.hb.protocol.response.CreateGroupResponsePacket;
 import the.hb.protocol.response.LoginResponsePacket;
 import the.hb.protocol.response.LogoutResponsePacket;
 import the.hb.protocol.response.MessageResponsePacket;
@@ -35,12 +37,14 @@ public class PacketCodeC {
         serializerMap.put(SerializeAlgorithm.JSON, Serializer.DEFAULT);
 
         requestTypeMap = new HashMap<>();
-        requestTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
-        requestTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
-        requestTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
-        requestTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
-        requestTypeMap.put(Command.LOGOUT_REQUEST, LogoutRequestPacket.class);
-        requestTypeMap.put(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class);
+        this.packetTypeMapPut(Command.LOGIN_REQUEST, LoginRequestPacket.class)
+            .packetTypeMapPut(Command.LOGIN_RESPONSE, LoginResponsePacket.class)
+            .packetTypeMapPut(Command.MESSAGE_REQUEST, MessageRequestPacket.class)
+            .packetTypeMapPut(Command.MESSAGE_RESPONSE, MessageResponsePacket.class)
+            .packetTypeMapPut(Command.LOGOUT_REQUEST, LogoutRequestPacket.class)
+            .packetTypeMapPut(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class)
+            .packetTypeMapPut(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class)
+            .packetTypeMapPut(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
     }
 
     public ByteBuf encode(Packet packet){
@@ -87,5 +91,9 @@ public class PacketCodeC {
         byteBuf.writeInt(bytes.length);
         byteBuf.writeBytes(bytes);
 
+    }
+    private PacketCodeC packetTypeMapPut(Byte command, Class<? extends Packet> clazz){
+        this.requestTypeMap.put(command, clazz);
+        return this;
     }
 }
