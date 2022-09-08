@@ -22,4 +22,6 @@ public interface Command {
     byte QUIT_GROUP_RESPONSE = 12;
     byte LIST_GROUP_MEMBERS_REQUEST = 13;
     byte LIST_GROUP_MEMBERS_RESPONSE = 14;
+    byte MESSAGE_GROUP_REQUEST = 15;
+    byte MESSAGE_GROUP_RESPONSE = 16;
 }

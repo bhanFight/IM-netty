@@ -45,7 +45,9 @@ public class PacketCodeC {
                 .packetTypeMapPut(Command.QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class)
                 .packetTypeMapPut(Command.QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class)
                 .packetTypeMapPut(Command.LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class)
-                .packetTypeMapPut(Command.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
+                .packetTypeMapPut(Command.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class)
+                .packetTypeMapPut(Command.MESSAGE_GROUP_REQUEST, MessageGroupRequestPacket.class)
+                .packetTypeMapPut(Command.MESSAGE_GROUP_RESPONSE, MessageGroupResponsePacket.class);
     }
 
     public ByteBuf encode(Packet packet){
