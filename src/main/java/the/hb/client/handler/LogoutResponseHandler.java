@@ -19,6 +19,7 @@ public class LogoutResponseHandler extends SimpleChannelInboundHandler<LogoutRes
     protected void channelRead0(ChannelHandlerContext ctx, LogoutResponsePacket logoutResponsePacket) throws Exception {
         if(logoutResponsePacket.isSuccess()){
             LoginUtil.logout(ctx.channel());
+            System.out.println(new Date() + ":您已退出，请重新输入用户名进行登录 ->");
         }else{
             System.out.println(new Date() + ":退出失败，请重试");
         }

@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.UUID;
 
+import static the.hb.util.TimeUtil.waitForLoginResponse;
+
 /**
  * <p>
  *
@@ -29,11 +31,5 @@ public class LoginConsoleCommand implements ConsoleCommand{
 
         waitForLoginResponse();
     }
-    private static void waitForLoginResponse(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+
 }

@@ -69,4 +69,12 @@ public class SessionUtil {
     public static Session getSession(String userId) {
         return getSession(getChannel(userId));
     }
+
+    public static ChannelGroup getChannelGroup(String groupId){
+        return channelGroupMap.get(groupId);
+    }
+
+    public static void unBindChannelGroup(String groupId) {
+        channelGroupMap.remove(groupId);
+    }
 }

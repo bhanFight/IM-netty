@@ -61,7 +61,9 @@ public class NettyClient {
                                 .addLast(new LoginResponseHandler())
                                 .addLast(new MessageResponseHandler())
                                 .addLast(new LogoutResponseHandler())
-                                .addLast(new CreateGroupResponseHandler());
+                                .addLast(new CreateGroupResponseHandler())
+                                .addLast(new JoinGroupResponseHandler())
+                                .addLast(new QuitGroupResponseHandler());
                     }
                 });
         connect(bootStrap, "localhost", 8081, MAX_RETRY);

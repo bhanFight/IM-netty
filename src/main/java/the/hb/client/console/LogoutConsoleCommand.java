@@ -2,6 +2,7 @@ package the.hb.client.console;
 
 import io.netty.channel.Channel;
 import the.hb.protocol.request.LogoutRequestPacket;
+import the.hb.util.TimeUtil;
 
 import java.util.Scanner;
 
@@ -16,5 +17,6 @@ public class LogoutConsoleCommand implements ConsoleCommand{
     public void execute(Scanner sc, Channel channel) {
         LogoutRequestPacket logoutRequestPacket = new LogoutRequestPacket();
         channel.writeAndFlush(logoutRequestPacket);
+        TimeUtil.waitForLoginResponse();
     }
 }

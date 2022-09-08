@@ -20,10 +20,13 @@ public class ConsoleCommandManager implements ConsoleCommand{
     public ConsoleCommandManager(){
         consoleCommandMap = new HashMap<>();
 
-        this.put("message", new MessageConsoleCommand())
-            .put("createGroup", new CreateGroupConsoleCommand())
-            .put("logout", new LogoutConsoleCommand())
-            .put("createGroup", new CreateGroupConsoleCommand());
+        this
+                .put("message", new MessageConsoleCommand())
+                .put("createGroup", new CreateGroupConsoleCommand())
+                .put("logout", new LogoutConsoleCommand())
+                .put("createGroup", new CreateGroupConsoleCommand())
+                .put("joinGroup", new JoinGroupConsoleCommand())
+                .put("quitGroup", new QuitGroupConsoleCommand());
     }
 
     @Override

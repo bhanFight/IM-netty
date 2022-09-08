@@ -4,14 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import lombok.Data;
 import the.hb.protocol.command.Command;
-import the.hb.protocol.request.CreateGroupRequestPacket;
-import the.hb.protocol.request.LoginRequestPacket;
-import the.hb.protocol.request.LogoutRequestPacket;
-import the.hb.protocol.request.MessageRequestPacket;
-import the.hb.protocol.response.CreateGroupResponsePacket;
-import the.hb.protocol.response.LoginResponsePacket;
-import the.hb.protocol.response.LogoutResponsePacket;
-import the.hb.protocol.response.MessageResponsePacket;
+import the.hb.protocol.request.*;
+import the.hb.protocol.response.*;
 import the.hb.serialize.SerializeAlgorithm;
 import the.hb.serialize.Serializer;
 
@@ -37,14 +31,19 @@ public class PacketCodeC {
         serializerMap.put(SerializeAlgorithm.JSON, Serializer.DEFAULT);
 
         requestTypeMap = new HashMap<>();
-        this.packetTypeMapPut(Command.LOGIN_REQUEST, LoginRequestPacket.class)
-            .packetTypeMapPut(Command.LOGIN_RESPONSE, LoginResponsePacket.class)
-            .packetTypeMapPut(Command.MESSAGE_REQUEST, MessageRequestPacket.class)
-            .packetTypeMapPut(Command.MESSAGE_RESPONSE, MessageResponsePacket.class)
-            .packetTypeMapPut(Command.LOGOUT_REQUEST, LogoutRequestPacket.class)
-            .packetTypeMapPut(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class)
-            .packetTypeMapPut(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class)
-            .packetTypeMapPut(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+        this
+                .packetTypeMapPut(Command.LOGIN_REQUEST, LoginRequestPacket.class)
+                .packetTypeMapPut(Command.LOGIN_RESPONSE, LoginResponsePacket.class)
+                .packetTypeMapPut(Command.MESSAGE_REQUEST, MessageRequestPacket.class)
+                .packetTypeMapPut(Command.MESSAGE_RESPONSE, MessageResponsePacket.class)
+                .packetTypeMapPut(Command.LOGOUT_REQUEST, LogoutRequestPacket.class)
+                .packetTypeMapPut(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class)
+                .packetTypeMapPut(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class)
+                .packetTypeMapPut(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class)
+                .packetTypeMapPut(Command.JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class)
+                .packetTypeMapPut(Command.JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class)
+                .packetTypeMapPut(Command.QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class)
+                .packetTypeMapPut(Command.QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
     }
 
     public ByteBuf encode(Packet packet){
