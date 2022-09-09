@@ -8,10 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
-import the.hb.common.handler.PacketCodecHandler;
-import the.hb.common.handler.PacketDecoder;
-import the.hb.common.handler.PacketEncoder;
-import the.hb.common.handler.Spliter;
+import the.hb.common.handler.*;
 import the.hb.server.handler.*;
 
 /**
@@ -32,9 +29,11 @@ public class NettyServer {
                 .childHandler(new ChannelInitializer<NioSocketChannel>() {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                         nioSocketChannel.pipeline()
+                                .addLast(new IMIdleStateHandler())
                                 .addLast(new Spliter())
                                 .addLast(PacketCodecHandler.INSTANCE)
                                 .addLast(LoginRequestHandler.INSTANCE)
+                                .addLast(HeartBeatRequestHandler.INSTANCE)
                                 .addLast("authHandler", AuthHandler.INSTANCE)
                                 .addLast(MessageRequestHandler.INSTANCE)
                                 .addLast(LogoutRequestHandler.INSTANCE)

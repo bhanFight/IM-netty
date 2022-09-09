@@ -17,10 +17,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import the.hb.client.console.ConsoleCommandManager;
 import the.hb.client.console.LoginConsoleCommand;
 import the.hb.client.handler.*;
-import the.hb.common.handler.PacketCodecHandler;
-import the.hb.common.handler.PacketDecoder;
-import the.hb.common.handler.PacketEncoder;
-import the.hb.common.handler.Spliter;
+import the.hb.common.handler.*;
 import the.hb.protocol.PacketCodeC;
 import the.hb.protocol.request.LoginRequestPacket;
 import the.hb.protocol.request.MessageRequestPacket;
@@ -56,6 +53,7 @@ public class NettyClient {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
+                                .addLast(new IMIdleStateHandler())
                                 .addLast(new Spliter())
                                 .addLast(PacketCodecHandler.INSTANCE)
                                 .addLast(LoginResponseHandler.INSTANCE)
@@ -65,7 +63,8 @@ public class NettyClient {
                                 .addLast(JoinGroupResponseHandler.INSTANCE)
                                 .addLast(QuitGroupResponseHandler.INSTANCE)
                                 .addLast(ListGroupResponseHandler.INSTANCE)
-                                .addLast(MessageGroupResponseHandler.INSTANCE);
+                                .addLast(MessageGroupResponseHandler.INSTANCE)
+                                .addLast(HeartBeatTimerHandler.INSTANCE);
                     }
                 });
         connect(bootStrap, "localhost", 8081, MAX_RETRY);

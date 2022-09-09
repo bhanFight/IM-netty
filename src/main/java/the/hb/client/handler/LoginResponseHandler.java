@@ -29,6 +29,7 @@ public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginRespo
         loginRequestPacket.setPassword("suoLong123..");
 
         ctx.channel().writeAndFlush(loginRequestPacket);*/
+        super.channelActive(ctx);
     }
 
     @Override
