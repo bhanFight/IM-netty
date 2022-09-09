@@ -108,4 +108,8 @@ fabric.properties
 blog/
 flash-netty.iml
 target/
+<<<<<<< HEAD
 IM-netty.iml
+=======
+IM-netty.iml
+>>>>>>> developing
