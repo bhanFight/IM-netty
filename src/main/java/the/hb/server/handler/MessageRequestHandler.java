@@ -1,6 +1,7 @@
 package the.hb.server.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import the.hb.protocol.request.MessageRequestPacket;
@@ -15,7 +16,12 @@ import java.util.Date;
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/5 21:21
  */
+@ChannelHandler.Sharable
 public class MessageRequestHandler extends SimpleChannelInboundHandler<MessageRequestPacket> {
+
+    public static MessageRequestHandler INSTANCE = new MessageRequestHandler();
+
+    private MessageRequestHandler(){}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageRequestPacket messageRequestPacket) throws Exception {

@@ -1,6 +1,7 @@
 package the.hb.server.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -18,7 +19,13 @@ import java.util.List;
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/8 17:51
  */
+@ChannelHandler.Sharable
 public class ListGroupRequestHandler extends SimpleChannelInboundHandler<ListGroupMembersRequestPacket> {
+
+    public static ListGroupRequestHandler INSTANCE = new ListGroupRequestHandler();
+
+    private ListGroupRequestHandler(){}
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, ListGroupMembersRequestPacket listGroupMembersRequestPacket) throws Exception {
         String groupId = listGroupMembersRequestPacket.getGroupId();

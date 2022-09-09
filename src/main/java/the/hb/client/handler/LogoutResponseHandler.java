@@ -1,5 +1,6 @@
 package the.hb.client.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import the.hb.protocol.response.LogoutResponsePacket;
@@ -13,7 +14,12 @@ import java.util.Date;
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/7 18:23
  */
+@ChannelHandler.Sharable
 public class LogoutResponseHandler extends SimpleChannelInboundHandler<LogoutResponsePacket> {
+
+    public static LogoutResponseHandler INSTANCE = new LogoutResponseHandler();
+
+    private LogoutResponseHandler(){}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LogoutResponsePacket logoutResponsePacket) throws Exception {

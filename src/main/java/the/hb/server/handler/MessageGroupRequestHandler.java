@@ -1,5 +1,6 @@
 package the.hb.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -14,7 +15,13 @@ import the.hb.util.SessionUtil;
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/8 19:35
  */
+@ChannelHandler.Sharable
 public class MessageGroupRequestHandler extends SimpleChannelInboundHandler<MessageGroupRequestPacket> {
+
+    public static MessageGroupRequestHandler INSTANCE = new MessageGroupRequestHandler();
+
+    private MessageGroupRequestHandler(){}
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, MessageGroupRequestPacket requestPacket) throws Exception {
         String groupId = requestPacket.getGroupId();

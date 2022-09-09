@@ -1,23 +1,25 @@
 package the.hb.client.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import the.hb.protocol.request.LoginRequestPacket;
-import the.hb.protocol.request.MessageRequestPacket;
 import the.hb.protocol.response.LoginResponsePacket;
-import the.hb.server.handler.MessageRequestHandler;
 import the.hb.util.LoginUtil;
 
 import java.util.Date;
-import java.util.UUID;
-
 /**
  * <p>
  *
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/5 20:29
  */
+@ChannelHandler.Sharable
 public class LoginResponseHandler extends SimpleChannelInboundHandler<LoginResponsePacket> {
+
+    public static LoginResponseHandler INSTANCE = new LoginResponseHandler();
+
+    private LoginResponseHandler(){}
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         /*LoginRequestPacket loginRequestPacket = new LoginRequestPacket();

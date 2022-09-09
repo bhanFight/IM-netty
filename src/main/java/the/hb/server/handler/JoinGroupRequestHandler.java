@@ -1,9 +1,9 @@
 package the.hb.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
-import the.hb.Session.Session;
 import the.hb.protocol.request.JoinGroupRequestPacket;
 import the.hb.protocol.response.JoinGroupResponsePacket;
 import the.hb.util.SessionUtil;
@@ -14,7 +14,13 @@ import the.hb.util.SessionUtil;
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/8 14:41
  */
+@ChannelHandler.Sharable
 public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
+
+    public static JoinGroupRequestHandler INSTANCE = new JoinGroupRequestHandler();
+
+    private JoinGroupRequestHandler(){}
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, JoinGroupRequestPacket joinGroupRequestPacket) throws Exception {
         String groupId = joinGroupRequestPacket.getGroupId();

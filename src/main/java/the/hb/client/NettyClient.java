@@ -58,14 +58,14 @@ public class NettyClient {
                                 .addLast(new Spliter())
                                 .addLast(new PacketDecoder())
                                 .addLast(new PacketEncoder())
-                                .addLast(new LoginResponseHandler())
-                                .addLast(new MessageResponseHandler())
-                                .addLast(new LogoutResponseHandler())
-                                .addLast(new CreateGroupResponseHandler())
-                                .addLast(new JoinGroupResponseHandler())
-                                .addLast(new QuitGroupResponseHandler())
-                                .addLast(new ListGroupResponseHandler())
-                                .addLast(new MessageGroupResponseHandler());
+                                .addLast(LoginResponseHandler.INSTANCE)
+                                .addLast(MessageResponseHandler.INSTANCE)
+                                .addLast(LogoutResponseHandler.INSTANCE)
+                                .addLast(CreateGroupResponseHandler.INSTANCE)
+                                .addLast(JoinGroupResponseHandler.INSTANCE)
+                                .addLast(QuitGroupResponseHandler.INSTANCE)
+                                .addLast(ListGroupResponseHandler.INSTANCE)
+                                .addLast(MessageGroupResponseHandler.INSTANCE);
                     }
                 });
         connect(bootStrap, "localhost", 8081, MAX_RETRY);

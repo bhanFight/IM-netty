@@ -1,8 +1,8 @@
 package the.hb.client.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import the.hb.Session.Session;
 import the.hb.protocol.response.CreateGroupResponsePacket;
 
 import java.util.Date;
@@ -14,7 +14,12 @@ import java.util.List;
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/8 0:42
  */
+@ChannelHandler.Sharable
 public class CreateGroupResponseHandler extends SimpleChannelInboundHandler<CreateGroupResponsePacket> {
+
+    public static CreateGroupResponseHandler INSTANCE = new CreateGroupResponseHandler();
+
+    private CreateGroupResponseHandler(){}
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupResponsePacket createGroupResponsePacket) throws Exception {

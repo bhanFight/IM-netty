@@ -1,8 +1,8 @@
 package the.hb.server.handler;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import the.hb.util.LoginUtil;
 import the.hb.util.SessionUtil;
 
 import java.util.Date;
@@ -13,7 +13,12 @@ import java.util.Date;
  * @author bHan        Email:1214599243@qq.com
  * <p>2022/9/6 19:20
  */
+@ChannelHandler.Sharable
 public class AuthHandler extends ChannelInboundHandlerAdapter {
+
+    public static AuthHandler INSTANCE = new AuthHandler();
+
+    private AuthHandler(){}
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
