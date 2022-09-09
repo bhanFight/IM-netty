@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
+import the.hb.common.handler.PacketCodecHandler;
 import the.hb.common.handler.PacketDecoder;
 import the.hb.common.handler.PacketEncoder;
 import the.hb.common.handler.Spliter;
@@ -32,7 +33,7 @@ public class NettyServer {
                     protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception {
                         nioSocketChannel.pipeline()
                                 .addLast(new Spliter())
-                                .addLast(new PacketDecoder())
+                                .addLast(PacketCodecHandler.INSTANCE)
                                 .addLast(LoginRequestHandler.INSTANCE)
                                 .addLast("authHandler", AuthHandler.INSTANCE)
                                 .addLast(MessageRequestHandler.INSTANCE)
@@ -41,8 +42,7 @@ public class NettyServer {
                                 .addLast(JoinGroupRequestHandler.INSTANCE)
                                 .addLast(QuitGroupRequestHandler.INSTANCE)
                                 .addLast(ListGroupRequestHandler.INSTANCE)
-                                .addLast(MessageGroupRequestHandler.INSTANCE)
-                                .addLast(new PacketEncoder());
+                                .addLast(MessageGroupRequestHandler.INSTANCE);
                     }
                 });
         bind(serverBootstrap, 8080);

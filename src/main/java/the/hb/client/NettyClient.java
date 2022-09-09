@@ -17,6 +17,7 @@ import io.netty.util.concurrent.GenericFutureListener;
 import the.hb.client.console.ConsoleCommandManager;
 import the.hb.client.console.LoginConsoleCommand;
 import the.hb.client.handler.*;
+import the.hb.common.handler.PacketCodecHandler;
 import the.hb.common.handler.PacketDecoder;
 import the.hb.common.handler.PacketEncoder;
 import the.hb.common.handler.Spliter;
@@ -56,8 +57,7 @@ public class NettyClient {
                     protected void initChannel(SocketChannel socketChannel) throws Exception {
                         socketChannel.pipeline()
                                 .addLast(new Spliter())
-                                .addLast(new PacketDecoder())
-                                .addLast(new PacketEncoder())
+                                .addLast(PacketCodecHandler.INSTANCE)
                                 .addLast(LoginResponseHandler.INSTANCE)
                                 .addLast(MessageResponseHandler.INSTANCE)
                                 .addLast(LogoutResponseHandler.INSTANCE)
